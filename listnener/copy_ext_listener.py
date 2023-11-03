@@ -53,7 +53,7 @@ def get_computer_name():
     else:
         return 'Unknown [Different]'
 
-hotkey = keyboard.HotKey(keyboard.HotKey.parse('<ctrl>+c'),on_user_copy)
+hotkey = keyboard.HotKey(keyboard.HotKey.parse('<ctrl>+c+/'),on_user_copy)
 
 with keyboard.Listener(on_press=for_canonical(hotkey.press),on_release=for_canonical(hotkey.release)) as l:
     l.join()
