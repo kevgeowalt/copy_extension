@@ -1,0 +1,9 @@
+{
+    "manifest_version": 3,
+    "name": "Quick Paste",
+    "description": "",
+    "version": "1.0",
+    "action": {
+      "default_popup": "popup/default.html"
+    }
+  }
