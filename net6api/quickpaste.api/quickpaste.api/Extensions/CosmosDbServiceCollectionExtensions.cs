@@ -10,7 +10,9 @@ namespace quickpaste.api.Extensions
             services.AddSingleton(provider =>
             {
                 var credential = new DefaultAzureCredential();
-                var cosmonsClient = new CosmosClient(databaseUrl, credential);
+                var authKey = Environment.GetEnvironmentVariable("DATABASE_KEY") ?? string.Empty;
+
+                var cosmonsClient = new CosmosClient(databaseUrl,authKey);
 
                 return cosmonsClient;
             });
