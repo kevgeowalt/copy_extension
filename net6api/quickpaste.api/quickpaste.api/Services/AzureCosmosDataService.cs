@@ -30,7 +30,8 @@ namespace quickpaste.api.Services
                 string containerName = Environment.GetEnvironmentVariable("DB_CONTAINER_NAME") ?? string.Empty;
                 var container = database.GetContainer(containerName);
 
-                var query = new QueryDefinition(query: "select * from items x");
+                var query = new QueryDefinition(query: "SELECT TOP @n * FROM items x")
+                    .WithParameter("@n",n);
                 using FeedIterator<QuickPasteModel> feed = container.GetItemQueryIterator<QuickPasteModel>(queryDefinition: query);
 
                 while (feed.HasMoreResults)
