@@ -1,7 +1,9 @@
-﻿namespace quickpaste.api.Interfaces
+﻿using quickpaste.api.Models;
+
+namespace quickpaste.api.Interfaces
 {
     public interface IDataService
     {
-        Task<IEnumerable<object>> RetrieveAsync(int n);
+        Task<IEnumerable<QuickPasteModel>> RetrieveAsync(int n);
     }
 }
