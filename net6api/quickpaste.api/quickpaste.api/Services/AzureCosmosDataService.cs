@@ -1,5 +1,6 @@
 ﻿using Microsoft.Azure.Cosmos;
 using quickpaste.api.Interfaces;
+using quickpaste.api.Models;
 
 namespace quickpaste.api.Services
 {
@@ -21,21 +22,21 @@ namespace quickpaste.api.Services
         /// </summary>
         /// <param name="n"></param>
         /// <returns></returns>
-        public async Task<IEnumerable<object>> RetrieveAsync(int n)
+        public async Task<IEnumerable<QuickPasteModel>> RetrieveAsync(int n)
         {
-            List<object> results = new List<object>();
+            List<QuickPasteModel> results = new List<QuickPasteModel>();
             try
             {
-                string containerName = Environment.GetEnvironmentVariable("CONTAINER_NAME") ?? string.Empty;
+                string containerName = Environment.GetEnvironmentVariable("DB_CONTAINER_NAME") ?? string.Empty;
                 var container = database.GetContainer(containerName);
 
                 var query = new QueryDefinition(query: "select * from items x");
-                using FeedIterator<object> feed = container.GetItemQueryIterator<object>(queryDefinition: query);
+                using FeedIterator<QuickPasteModel> feed = container.GetItemQueryIterator<QuickPasteModel>(queryDefinition: query);
 
                 while (feed.HasMoreResults)
                 {
-                    FeedResponse<object> response = await feed.ReadNextAsync();
-                    foreach(object item in response)
+                    FeedResponse<QuickPasteModel> response = await feed.ReadNextAsync();
+                    foreach(QuickPasteModel item in response)
                     {
                         results.Add(item);
                     }
