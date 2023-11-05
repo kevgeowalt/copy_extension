@@ -18,7 +18,7 @@ def copyextension_queue_trigger(message: func.ServiceBusMessage):
     URL = config.SETTINGS['DATABASE_URL']
     KEY = config.SETTINGS['DATABASE_KEY']
     DATABASE_NAME = config.SETTINGS['DATABASE_NAME']
-    CONTAINER_NAME = config.SETTINGS['CONTAINER_NAME']
+    DB_CONTAINER_NAME = config.SETTINGS['DB_CONTAINER_NAME']
 
     # Register database & container
     # Assumes the database & containers exist
@@ -26,7 +26,7 @@ def copyextension_queue_trigger(message: func.ServiceBusMessage):
     # To create a new container use: database.create_container_if_not_exists()
     client = cosmo.CosmosClient(URL,credential=KEY)
     database = client.get_database_client(DATABASE_NAME)
-    container = database.get_container_client(CONTAINER_NAME)
+    container = database.get_container_client(DB_CONTAINER_NAME)
     
     logging.info('Successfully connected to database/container')
 
