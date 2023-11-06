@@ -3,12 +3,12 @@ import os
 import platform
 import socket
 
+import config
+
 from azure.servicebus import ServiceBusClient, ServiceBusMessage
 from PIL import ImageGrab
 from pynput import keyboard
 from pyperclip import paste
-
-import config
 
 SERVICE_BUS_CONNECTION_STR = config.SETTINGS["SERVICE_BUS_CONNECTION_STR"]
 SERVICE_BUS_QUEUE_NAME = config.SETTINGS["SERVICE_BUS_QUEUE_NAME"]
@@ -46,7 +46,7 @@ def azure_queue_msg(packet):
 
 
 def for_canonical(f):
-    return lambda k: f(l.canonical(k))
+    return lambda k: f(local_listener.canonical(k))
 
 
 def get_computer_name():
@@ -65,6 +65,7 @@ def get_computer_name():
 hotkey = keyboard.HotKey(keyboard.HotKey.parse("<ctrl>+c+/"), on_user_copy)
 
 with keyboard.Listener(
-    on_press=for_canonical(hotkey.press), on_release=for_canonical(hotkey.release)
-) as l:
-    l.join()
+    on_press=for_canonical(hotkey.press),
+    on_release=for_canonical(hotkey.release)
+) as local_listener:
+    local_listener.join()
