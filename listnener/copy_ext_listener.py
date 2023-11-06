@@ -2,12 +2,11 @@ import json
 import os
 import platform
 import socket
-import sys
 
 from azure.servicebus import ServiceBusClient, ServiceBusMessage
 from PIL import ImageGrab
 from pynput import keyboard
-from pyperclip import copy, paste
+from pyperclip import paste
 
 import config
 
