@@ -17,6 +17,15 @@ string dbUrl = Environment.GetEnvironmentVariable("DATABASE_URL") ?? string.Empt
 string dbName = Environment.GetEnvironmentVariable("DATABASE_NAME") ?? string.Empty;
 
 builder.Services.RegisterCosmosDbClient(dbUrl, dbName);
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
@@ -30,7 +39,7 @@ if (app.Environment.IsDevelopment())
 //app.UseHttpsRedirection();
 
 //app.UseAuthorization();
-
+app.UseCors();
 app.MapControllers();
 
 app.Run();
