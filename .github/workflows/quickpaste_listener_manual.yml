@@ -6,7 +6,7 @@ name: Python keybaord hotkey listner
 on:
   workflow_dispatch:
     branches:
-      - Development
+      - main
 
 jobs:
   lint-listner:
