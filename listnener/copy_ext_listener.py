@@ -4,7 +4,6 @@ import platform
 import socket
 
 import config
-
 from azure.servicebus import ServiceBusClient, ServiceBusMessage
 from PIL import ImageGrab
 from pynput import keyboard
@@ -64,8 +63,6 @@ def get_computer_name():
 
 hotkey = keyboard.HotKey(keyboard.HotKey.parse("<ctrl>+c+/"), on_user_copy)
 
-with keyboard.Listener(
-    on_press=for_canonical(hotkey.press),
-    on_release=for_canonical(hotkey.release)
+with keyboard.Listener(on_press=for_canonical(hotkey.press), on_release=for_canonical(hotkey.release)
 ) as local_listener:
     local_listener.join()
