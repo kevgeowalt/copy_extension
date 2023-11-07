@@ -6,12 +6,6 @@ on:
       - Development
     paths:
       - py-azure-functions/**
-#  push:
-#    branches:
-#      - Function
-#    paths:
-#      - ./.github/workflows/**
-
 jobs:
   source:
     name: source
