@@ -56,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.3
         with:
           name: quickpaste-api
-          path: ${{ steps.package.outputs.api_artifact_path }}
+          path: ./api.zip
 
   deploy-stage:
     name: deploy stage
