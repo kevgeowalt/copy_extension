@@ -6,7 +6,7 @@ on:
       - Development
     paths:
       - py-azure-functions/**
-      - ./.github/workflows/**
+      - .github/workflows/**
       
 # env variables for current workflow file
 env:
