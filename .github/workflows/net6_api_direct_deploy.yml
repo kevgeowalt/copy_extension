@@ -14,6 +14,9 @@ on:
     paths:
       - .github/workflows/**
 
+env:
+  AZURE_WEB_APP_NAME: 'quickpaste-dev-ca-east-webapi'
+
 jobs:
   build-stage:
     name: build web api
@@ -45,4 +48,34 @@ jobs:
       - name: zip published code
         run: |
           zip -r api.zip ./net6api/quickpaste.api/quickpaste.api/publish
-          ls -al
+          echo "set-output name=api_artifact_path:./api.zip"
+        id: package
+
+      # upload artifact
+      - name: upload artifact
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: quickpaste-api
+          path: ${{steps.package.outputs.api_artifact_path}}
+
+  deploy-stage:
+    name: deploy stage
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # downalod artifact
+      - name: download artifact
+        uses: actions/download-artifact@v2.1.1
+        with:
+          name: quickpaste-api
+          path: ./
+
+      # deploy artifact to azure web app
+      - name: deploy code to web app
+        uses: Azure/webapps-deploy@v3.0.0
+        with:
+          app-name: ${{ AZURE_WEB_APP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./api.zip
+          
