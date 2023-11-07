@@ -47,7 +47,8 @@ jobs:
       # zip publish folder
       - name: zip published code
         run: |
-          zip -r api.zip ./net6api/quickpaste.api/quickpaste.api/publish
+          cd ./net6api/quickpaste.api/quickpaste.api/publish
+          zip -r ../../../../api.zip *
           echo "set-output name=api_artifact_path:./api.zip"
         id: package
 
