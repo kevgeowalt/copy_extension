@@ -1,0 +1,76 @@
+name: build and deploy net6 web api to azure web app
+
+on:
+  pull_request:
+    branches:
+      - Development
+    paths:
+      - net6api/**
+      - .github/workflows/**
+env:
+  AZURE_WEB_APP_NAME: 'quickpaste-dev-ca-east-webapi'
+
+jobs:
+  build-stage:
+    name: build web api
+    runs-on: ubuntu-latest
+
+    steps:
+      # checkout code to runner
+      - name: checkout code using
+        uses: actions/checkout@v4.1.1
+
+      # verify that all expected folders are showing on runner
+      - name: debug [show checked out directory]
+        run: ls -al
+
+      # setup dotnet on the runner to run codebase written in .net 6
+      - name: setup dotnet env
+        uses: actions/setup-dotnet@v3.2.0
+        with:
+          dotnet-version: 6.0.x
+
+      # install dependencies/packagess
+      - name: install dependencies and publish
+        run: |
+          dotnet restore ./net6api/quickpaste.api/quickpaste.api
+          dotnet build ./net6api/quickpaste.api/quickpaste.api
+          dotnet publish ./net6api/quickpaste.api/quickpaste.api/quickpaste.api.csproj -c Release -o ./net6api/quickpaste.api/quickpaste.api/publish
+
+      # zip publish folder
+      - name: zip published code
+        run: |
+          cd ./net6api/quickpaste.api/quickpaste.api/publish
+          zip -r ../../../../api.zip *
+          echo "set-output name=api_artifact_path:./api.zip"
+        id: package
+
+      # upload artifact
+      - name: upload artifact
+        uses: actions/upload-artifact@v3.1.3
+        with:
+          name: quickpaste-api
+          path: ./api.zip
+
+  deploy-stage:
+    name: deploy stage
+    needs: build-stage
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # downalod artifact
+      - name: download artifact
+        uses: actions/download-artifact@v2.1.1
+        with:
+          name: quickpaste-api
+          path: ./
+
+      # deploy artifact to azure web app
+      - name: deploy code to web app
+        uses: Azure/webapps-deploy@v3.0.0
+        with:
+          app-name: ${{ env.AZURE_WEB_APP_NAME }}
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: ./api.zip
+          
