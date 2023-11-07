@@ -1,1 +1,28 @@
+name: build and deploy net6 web api to azure web app
 
+on:
+  pull_request:
+    branches:
+      - Development
+    paths:
+      - net6api/**
+      - .github/workflows/**
+
+  push:
+    branches:
+      - api
+    paths:
+      - .github/workflows/**
+
+jobs:
+  build-stage:
+    name: build web api
+    runs-on: ubuntu-latest
+
+    steps:
+      # checkout code to runner
+      - name: checkout code using
+        uses: actions/checkout@v4.1.1
+
+      - name: debug [show checked out directory]
+        run: ls -al
