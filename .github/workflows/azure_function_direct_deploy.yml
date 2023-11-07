@@ -22,7 +22,7 @@ jobs:
       - name: checkout python code
         uses: actions/checkout@v4.1.1
         with:
-          path: py-azure-functions/
+          path: ./py-azure-functions/
 
       # install python on target runner os
       - name: setup python
@@ -33,7 +33,7 @@ jobs:
       # install python dependencies
       - name: install-dependencies
         run: | 
-          pip install -r py-azure-functions/requirements.txt
+          pip install -r ./py-azure-functions/requirements.txt
           pip install flake8
           pip install isort
 
