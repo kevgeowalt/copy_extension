@@ -6,9 +6,15 @@ on:
       - Development
     paths:
       - py-azure-functions/**
+      - ./.github/workflows/**
+      
+# env variables for current workflow file
+env:
+  AZURE_FUNCTIONAPP_NAME: 'quickpaste-dev-ca-east-func'
+  
 jobs:
-  source:
-    name: source
+  build-stage:
+    name: build stage
     runs-on: ubuntu-latest
     
     steps:
@@ -28,9 +34,28 @@ jobs:
           pip install -r py-azure-functions/requirements.txt
           pip install flake8
           pip install isort
-
+          
       # check lint
       - name: run linters against codebase
         run: | 
           flake8 ./py-azure-functions/function_app.py
-          isort --check-only ./py-azure-functions/function_app.py   
+          isort --check-only ./py-azure-functions/function_app.py
+
+  deploy-stage:
+    name: deploy stage
+    needs: build-stage
+    runs-on: ubuntu-latest
+
+    steps:
+    
+      # deploy to azure using the v1.5.1 Microsoft function action
+      - name: deploy to azure
+        uses: Azure/functions-action@v1.5.1
+        with:
+          app-name: ${{env.AZURE_FUNCTIONAPP_NAME}}
+          package: ./py-azure-functions/
+          publish-profile: ${{secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE}}
+          scm-do-build-during-deployment: true
+          enable-oryx-build: true
+
+  
