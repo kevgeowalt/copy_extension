@@ -37,7 +37,7 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
-      # install dependencies/packages
+      # install dependencies/packagess
       - name: install dependencies and publish
         run: |
           dotnet restore ./net6api/quickpaste.api/quickpaste.api
