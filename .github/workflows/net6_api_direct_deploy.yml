@@ -35,14 +35,14 @@ jobs:
           dotnet-version: 6.0.x
 
       # install dependencies/packages
-      - name: install dependencies
+      - name: install dependencies and publish
         run: |
           dotnet restore ./net6api/quickpaste.api/quickpaste.api
           dotnet build ./net6api/quickpaste.api/quickpaste.api
-          dotnet publish ./net6api/quickpaste.api/quickpaste.api.csproj -c Release -o ./net6api/quickpaste.api/publish
+          dotnet publish ./net6api/quickpaste.api/quickpaste.api/quickpaste.api.csproj -c Release -o ./net6api/quickpaste.api/quickpaste.api/publish
 
       # zip publish folder
       - name: zip published code
         run: |
-          zip -r api.zip ./net6api/quickpaste.api/publish
+          zip -r api.zip ./net6api/quickpaste.api/quickpaste.api/publish
           ls -al
