@@ -48,7 +48,7 @@ jobs:
 
     steps:
       - name: Debug - List Contents of py-azure-functions
-        run: ls -al py-azure-functions
+        run: ls -al
 
       # deploy to azure using the v1.5.1 Microsoft function action
       - name: deploy to azure
