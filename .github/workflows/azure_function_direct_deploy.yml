@@ -6,7 +6,6 @@ on:
       - Development
     paths:
       - py-azure-functions/**
-
 jobs:
   source:
     name: source
@@ -16,8 +15,6 @@ jobs:
       # checkout code to runner
       - name: checkout python code
         uses: actions/checkout@v4.1.1
-        with:
-          path: py-azure-functions/
 
       # install python on target runner os
       - name: setup python
