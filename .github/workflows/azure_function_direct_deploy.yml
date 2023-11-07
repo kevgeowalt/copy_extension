@@ -47,13 +47,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    
+      - name: Debug - List Contents of py-azure-functions
+        run: ls -al py-azure-functions
+
       # deploy to azure using the v1.5.1 Microsoft function action
       - name: deploy to azure
         uses: Azure/functions-action@v1.5.1
         with:
           app-name: ${{env.AZURE_FUNCTIONAPP_NAME}}
-          package: ./py-azure-functions/
+          package: py-azure-functions
           publish-profile: ${{secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE}}
           scm-do-build-during-deployment: true
           enable-oryx-build: true
