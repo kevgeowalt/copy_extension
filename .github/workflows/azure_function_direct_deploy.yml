@@ -1,1 +1,39 @@
+name: build and deploy azure function
 
+on:
+  pull_request:
+    branches:
+      - Development
+    paths:
+      - py-azure-functions/**
+
+jobs:
+  source:
+    name: source
+    runs-on: ubuntu-latest
+    
+    steps:
+      # checkout code to runner
+      - name: checkout python code
+        uses: actions/checkout@v4.1.1
+        with:
+          path: py-azure-functions/
+
+      # install python on target runner os
+      - name: setup python
+        uses: actions/setup-python@v4.7.1
+        with:
+         python-version: 3.11
+
+      # install python dependencies
+      - name: install-dependencies
+        run: | 
+          pip install -r py-azure-functions/requirements.txt
+          pip install flake8
+          pip install isort
+
+      # check lint
+      - name: run linters against codebase
+        run: | 
+          flake8 ./py-azure-functions/function_app.py
+          isort --check-only ./py-azure-functions/function_app.py   
