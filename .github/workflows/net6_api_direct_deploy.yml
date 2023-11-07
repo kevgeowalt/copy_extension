@@ -7,13 +7,6 @@ on:
     paths:
       - net6api/**
       - .github/workflows/**
-
-  push:
-    branches:
-      - api
-    paths:
-      - .github/workflows/**
-
 env:
   AZURE_WEB_APP_NAME: 'quickpaste-dev-ca-east-webapi'
 
