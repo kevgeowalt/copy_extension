@@ -1,11 +1,11 @@
 
 async function main(){
     var _parent = document.getElementById('parent');
-
+    
     await loadItemsAsync();
 
     async function loadItemsAsync(){
-        var response = await fetch('https://localhost:7056/api/QuickPaste/items?n=5')
+        var response = await fetch('https://quickpaste-dev-ca-east-webapi.azurewebsites.net/api/quickpaste/items?n=5')
         var jsonResult = await response.json();
 
         var items = Array.from(jsonResult);
